@@ -1,0 +1,306 @@
+plain_model
+mm_model
+mm_model_non_linear
+
+nvidia-docker run -d --name plain_model\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=2\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Multimodal-MT/Trainer.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --batch-size 64\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 0\
+                --dec-mm 1\
+                --non-linear-proj 0\
+                --degrade-source 0\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test_live_demo.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test_live_demo.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Multimodal-MT/models/test.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Multimodal-MT/translations/test.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Multimodal-MT/scores/live_demo.txt
+
+nvidia-docker run -d --name enc_attn_linear\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=7\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 1\
+                --dec-mm 0\
+                --non-linear-proj 0\
+                --degrade-source 0\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/enc_attn_linear.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/enc_attn_linear.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/enc_attn_linear.txt
+
+nvidia-docker run -d --name enc_attn_nonlinear\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=1\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 1\
+                --dec-mm 0\
+                --non-linear-proj 1\
+                --degrade-source 0\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/rainbow_enc_attn_nonlinear.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/rainbow_enc_attn_nonlinear.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/rainbow_enc_attn_nonlinear.txt
+
+nvidia-docker run -d --name enc_dec_attn_linear\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=2\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 1\
+                --dec-mm 1\
+                --non-linear-proj 0\
+                --degrade-source 0\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/rainbow_enc_dec_attn_linear.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/rainbow_enc_dec_attn_linear.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/rainbow_enc_dec_attn_linear.txt
+
+nvidia-docker run -d --name enc_dec_attn_nonlinear\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=6\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 1\
+                --dec-mm 1\
+                --non-linear-proj 1\
+                --degrade-source 0\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/rainbow_enc_dec_attn_nonlinear.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/rainbow_enc_dec_attn_nonlinear.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/rainbow_enc_dec_attn_nonlinear.txt
+
+nvidia-docker run -d --name dec_attn_nonlinear_dsp\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=6\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 0\
+                --dec-mm 1\
+                --non-linear-proj 1\
+                --degrade-source 1\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/dec_attn_nonlinear_dsp.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/dec_attn_nonlinear_dsp.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/dec_attn_nonlinear_dsp.txt
+
+nvidia-docker run -d --name plain_dsp\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=5\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 0\
+                --dec-mm 0\
+                --non-linear-proj 0\
+                --degrade-source 1\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/plain_dsp.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/plain_dsp.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/plain_dsp.txt
+
+nvidia-docker run -d --name dec_attn_nonlinear_dsd\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=11\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 0\
+                --dec-mm 1\
+                --non-linear-proj 1\
+                --degrade-source 1\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/dec_attn_nonlinear_dsd.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/dec_attn_nonlinear_dsd.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/dec_attn_nonlinear_dsd.txt
+
+nvidia-docker run -d --name plain_dsd\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=12\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 0\
+                --dec-mm 0\
+                --non-linear-proj 0\
+                --degrade-source 1\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/plain_dsd.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/plain_dsd.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/plain_dsd.txt
+
+nvidia-docker run -d --name dec_attn_nonlinear_shuffle\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=1\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 0\
+                --dec-mm 1\
+                --non-linear-proj 1\
+                --degrade-source 0\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/dec_attn_nonlinear_shuffle.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/dec_attn_nonlinear_shuffle.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/dec_attn_nonlinear_shuffle.txt
+
+
+nvidia-docker run -d --name dec_attn_nonlinear_blank\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=2\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 0\
+                --dec-mm 1\
+                --non-linear-proj 1\
+                --degrade-source 0\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/dec_attn_nonlinear_blank.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/dec_attn_nonlinear_blank.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/dec_attn_nonlinear_blank.txt
+
+nvidia-docker run -d --name dec_attn_nonlinear_gaussian\
+                -v /mnt/pccfs2:/mnt/pccfs2\
+                -e NVIDIA_VISIBLE_DEVICES=3\
+                -e PYTHONUNBUFFERED=1\
+                nvcr.io/nvidia/pytorch:21.03-py3\
+                python3  /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/MultimodalNMT/Annotated_Transformer_English_to_Chinese_Translator.py\
+                --n-epochs 20\
+                --n-layers 6\
+                --h-num 8\
+                --d-model 256\
+                --d-ff 1024\
+                --dropout 0.1\
+                --max-len 60\
+                --enc-mm 0\
+                --dec-mm 1\
+                --non-linear-proj 1\
+                --degrade-source 0\
+                --train-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_train.json\
+                --val-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_val.json\
+                --test-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/nmt/flickr30k/flickr_multi_test.json\
+                --img-path /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/data/images/flickr30k-images/\
+                --save-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/save/models/dec_attn_nonlinear_gaussian.pt\
+                --trans-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/trans/dec_attn_nonlinear_gaussian.txt\
+                --scores-file /mnt/pccfs2/dragn/nancy_pccfs_not_backed_up/natcar/Annotated-Transformer-English-to-Chinese-Translator/results/dec_attn_nonlinear_gaussian.txt
+
