@@ -6,6 +6,8 @@ def install(package):
 install("tables")
 install("pretrainedmodels")
 install("pytesseract")
+install("Pillow==9.0.0")
+install("https://github.com/CellProfiling/HPA-Cell-Segmentation/archive/master.zip")
 
 import nltk
 import json
